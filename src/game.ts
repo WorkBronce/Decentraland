@@ -126,3 +126,14 @@ score.fontSize = 30
 name.vAlign = 'top'
 name.fontSize = 30
 name.positionX = -300
+
+//Call the REST API
+void executeTask(async () => {
+  try {
+    const response = await fetch('http://localhost:5000')
+    const json = await response.json()
+    log(json)
+  } catch {
+    log('failed to reach URL')
+  }
+})
