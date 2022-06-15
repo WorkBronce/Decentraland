@@ -4,6 +4,8 @@ import { getUserData } from '@decentraland/Identity'
 //Get player public Ethereum key
 import { getUserPublicKey } from '@decentraland/Identity'
 
+import { getUsers,createUser,getUser,deleteUser,updateUser } from '../controllers/users.js'
+
 // Create screenspace component
 const canvas = new UICanvas()
 
@@ -126,14 +128,13 @@ score.fontSize = 30
 name.vAlign = 'top'
 name.fontSize = 30
 name.positionX = -300
-
-//Call the REST API
+//Enter REST API
 void executeTask(async () => {
   try {
-    const response = await fetch('http://localhost:5000')
-    const json = await response.json()
-    log(json)
+    const response = await fetch('http://localhost:5000/users')
+ 
+     log(response + 'this is inside')
   } catch {
-    log('failed to reach URL')
+    log('failed to reach URL 5000')
   }
 })
