@@ -4,7 +4,9 @@ import { getUserData } from '@decentraland/Identity'
 //Get player public Ethereum key
 import { getUserPublicKey } from '@decentraland/Identity'
 
-import { getUsers,createUser,getUser,deleteUser,updateUser } from '../controllers/users.js'
+import { getUsers, createUser, getUser, deleteUser, updateUser } from '../controllers/users.js'
+
+import { default as USERS } from './user.json'
 
 // Create screenspace component
 const canvas = new UICanvas()
@@ -17,7 +19,7 @@ const playerHighScore = new UIText(canvas)
 
 //Global variables
 let scorevalue = 0
-
+const users: Player[] = []
 //Cube Rotate System
 class RotatorSystem {
   // this group will contain every entity that has a Transform component
@@ -93,6 +95,7 @@ void executeTask(async () => {
     name.value = mainPlayer.playerName
   }
 
+  users[0] = mainPlayer
   mainPlayer.playerKey = '' + publicKey
 })
 
@@ -101,7 +104,8 @@ export class UpdateSystem implements ISystem {
   // This function is executed on every frame
   update() {
     // Iterate over the entities in an component group
-    playerHighScore.value = JSON.stringify(mainPlayer)
+    playerHighScore.value = users[0].playerName + ' ===== ' + users[0].playerScore
+    log(dataArray)
   }
 }
 
@@ -132,8 +136,8 @@ name.positionX = -300
 void executeTask(async () => {
   try {
     const response = await fetch('http://localhost:5000/users')
- 
-     log(response + 'this is inside')
+
+    log(response + 'this is inside')
   } catch {
     log('failed to reach URL 5000')
   }
