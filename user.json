@@ -1,5 +1,22 @@
 {
-    "playerKey" : "0x129648",
+    "Player" : [
+    {
+    "playerKey" : "0x56416841156684",
     "playerName" : "Lola",
-    "playerScore": 20
+    "playerScore": 23
+    },
+    {
+    "playerKey" : "0x56468468441894",
+    "playerName" : "Jon",
+    "playerScore": 10
+    },
+    {
+    "playerKey" : "0x65468469+86469",
+    "playerName" : "Oscar",
+    "playerScore": 5
+    }
+    
+    ]
+
+
 }

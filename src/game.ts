@@ -4,11 +4,12 @@ import { getUserData } from '@decentraland/Identity'
 //Get player public Ethereum key
 import { getUserPublicKey } from '@decentraland/Identity'
 
+//REST API server TODO
 import { getUsers, createUser, getUser, deleteUser, updateUser } from '../controllers/users.js'
 
-import { default as USERS } from './user.json'
+import USERS from '../user.json'
 
-// Create screenspace component
+// Create screenspace
 const canvas = new UICanvas()
 
 // Canvas variables
@@ -20,6 +21,7 @@ const playerHighScore = new UIText(canvas)
 //Global variables
 let scorevalue = 0
 const users: Player[] = []
+let stringedPlayers = ''
 //Cube Rotate System
 class RotatorSystem {
   // this group will contain every entity that has a Transform component
@@ -97,15 +99,37 @@ void executeTask(async () => {
 
   users[0] = mainPlayer
   mainPlayer.playerKey = '' + publicKey
+  USERS.Player.push(JSON.parse(JSON.stringify(users[0])))
+
+  const sortedPlayers = USERS.Player.sort((a, b) => (a.playerScore > b.playerScore ? -1 : 1))
+  USERS.Player = sortedPlayers
+  for (let i = 0; i < USERS.Player.length; i++) {
+    stringedPlayers = stringedPlayers + USERS.Player[i].playerName + ' ===== ' + USERS.Player[i].playerScore + '\n\n'
+  }
 })
 
 // Define the system
 export class UpdateSystem implements ISystem {
   // This function is executed on every frame
   update() {
-    // Iterate over the entities in an component group
-    playerHighScore.value = users[0].playerName + ' ===== ' + users[0].playerScore
-    log(dataArray)
+    // IF found that mainPlayer has change highscore
+    if (users[0].playerScore !== USERS.Player[3].playerScore) {
+      stringedPlayers = ''
+      log('changed score')
+      for (let i = 0; i < USERS.Player.length; i++) {
+        if (users[0].playerName === USERS.Player[i].playerName) {
+          USERS.Player[i].playerScore = users[0].playerScore
+          log('yes yes')
+        }
+      }
+      const sortedPlayers = USERS.Player.sort((a, b) => (a.playerScore > b.playerScore ? -1 : 1))
+      USERS.Player = sortedPlayers
+      for (let i = 0; i < USERS.Player.length; i++) {
+        stringedPlayers =
+          stringedPlayers + USERS.Player[i].playerName + ' ===== ' + USERS.Player[i].playerScore + '\n\n'
+      }
+    }
+    playerHighScore.value = stringedPlayers
   }
 }
 
@@ -118,12 +142,12 @@ spawnCube(8, 1, 8)
 // Canvas TextStyle
 playerHighScore.fontSize = 15
 playerHighScore.hAlign = 'left'
-playerHighScore.positionY = 30
+playerHighScore.positionY = -100
 
 Highscore.value = 'Highscore List'
 Highscore.hAlign = 'left'
 Highscore.fontSize = 40
-Highscore.positionY = 50
+Highscore.positionY = 100
 
 score.value = 'Score: 0'
 score.vAlign = 'top'

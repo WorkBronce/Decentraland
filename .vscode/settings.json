@@ -1,7 +1,15 @@
 {
     "cSpell.words": [
+        "callsites",
+        "espree",
+        "esquery",
+        "esrecurse",
+        "estraverse",
         "Highscore",
         "scorevalue",
         "screenspace"
+    ],
+    "cSpell.ignoreWords": [
+        "argparse"
     ]
 }
